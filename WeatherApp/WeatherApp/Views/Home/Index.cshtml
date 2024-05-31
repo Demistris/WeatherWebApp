@@ -1,10 +1,11 @@
-﻿@{
+﻿@model WeatherModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Weather Application</h1>
-    <form asp-controller="Home" asp-action="Weather" method="post">
+    <form asp-controller="Home" asp-action="GetWeatherDetails" method="post">
         <div>
             <input type="text" name="location" required />
             <input type="submit" value="Submit" />
@@ -13,16 +14,18 @@
     <br />
     <br />
 
-@*     @if (Model != null)
+    @if (Model != null)
     {
-        <h5>City: @Model.location.name</h5> <br />
-        <h5>Country: @Model.location.name</h5> <br />
-        <h5>Time: @Model.location.name</h5> <br />
-        <h5>Temperature: @Model.location.name</h5> <br />
-        <h5>Weather Description: @Model.location.name</h5> <br />
+        <h5>City: @Model.Location.Name</h5> <br />
+        <h5>Country: @Model.Location.Country</h5> <br />
+        <h5>Region: @Model.Location.Region </h5> <br />
+        <h5>Time: @Model.Location.LocalTime</h5> <br />
+        <h5>Temperature: @Model.Current.Temperature</h5> <br />
+        <h5>Humidity: @Model.Current.Humidity</h5> <br />
+        <h5>Weather Description: @Model.Current.Weather_Descriptions[0]</h5> <br />
     }
     else if (ViewData.ContainsKey("IsFormSubmitted") && (bool)ViewData["IsFormSubmitted"])
     {
         <p>@ViewData["Message"]</p>
-    } *@
+    }
 </div>

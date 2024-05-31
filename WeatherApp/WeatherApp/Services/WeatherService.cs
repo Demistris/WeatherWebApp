@@ -7,9 +7,12 @@ namespace WeatherApp.Services
     {
         private readonly int _statusCode = 200;
 
-        public async Task<ResponseModel> GetWeatherData() 
+        public async Task<ResponseModel> GetWeatherData(string location) 
         {
-            string apiUrl = "http://api.weatherstack.com/current?access_key=a5bdb300635ee5e45fd0cdfe1a71e924&query=NewYork";
+            string weatherApiUrl = AppConstants.WeatherApiUrl;
+            string weatherApiKey = AppConstants.WeatherApiKey;
+
+            string apiUrl = $"{weatherApiUrl}?access_key={weatherApiKey}&query=Boston";
 
             try
             {
@@ -25,7 +28,7 @@ namespace WeatherApp.Services
             }
             catch (FlurlHttpException ex)
             {
-                var errorResponse = await ex.GetResponseJsonAsync();
+                string errorResponse = await ex.GetResponseJsonAsync<string>();
                 return ResponseModel.Error(errorResponse);
             }
         }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WeatherApp.Models;
+using WeatherApp.Services;
 
 namespace WeatherApp.Controllers
 {
@@ -16,6 +17,14 @@ namespace WeatherApp.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        
+        public IActionResult GetWeatherDetails(string location)
+        {
+            WeatherService weatherService = new WeatherService();
+            var response = weatherService.GetWeatherData(location);
+
+            return View("Index", response.Result.JsonData);
         }
 
         public IActionResult Privacy()
