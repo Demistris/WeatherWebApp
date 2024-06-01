@@ -4,11 +4,13 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Weather Application</h1>
+    @* <h1 class="display-4">Weather Application</h1> *@
+    <br />
+    <br />
     <form asp-controller="Home" asp-action="GetWeatherDetails" method="post">
         <div>
-            <input type="text" name="location" required />
-            <input type="submit" value="Submit" />
+            <input class="rounded-box" type="text" name="location" placeholder="Search for cities" required />
+            @* <input type="submit" value="Submit" /> *@
         </div>
     </form>
     <br />
