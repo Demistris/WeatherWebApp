@@ -12,19 +12,32 @@ namespace WeatherApp.Services
             string weatherApiUrl = AppConstants.WeatherApiUrl;
             string weatherApiKey = AppConstants.WeatherApiKey;
 
-            string apiUrl = $"{weatherApiUrl}?access_key={weatherApiKey}&query=Boston";
-
             try
             {
-                var response = await apiUrl.GetAsync();
+                LocationService locationService = new LocationService();
+                var res = locationService.GetLocationData(location);
+                dynamic coordinates;
 
-                if (response.StatusCode == _statusCode)
+                if (res.Result.IsSuccess)
                 {
-                    var responseData = await response.GetJsonAsync<WeatherModel>();
-                    return ResponseModel.Success(responseData);
+                    coordinates = res.Result.JsonData;
+                    var longitude = coordinates[0];
+                    var latitude = coordinates[1];
+
+                    string apiUrl = $"{weatherApiUrl}?access_key={weatherApiKey}&query={latitude},{longitude}";
+
+                    var response = await apiUrl.GetAsync();
+
+                    if (response.StatusCode == _statusCode)
+                    {
+                        var responseData = await response.GetJsonAsync<WeatherModel>();
+                        return ResponseModel.Success(responseData);
+                    }
+
+                    return ResponseModel.Error(response.ResponseMessage.ToString());
                 }
 
-                return ResponseModel.Error(response.ResponseMessage.ToString());
+                return ResponseModel.Error(res.Result.ToString());
             }
             catch (FlurlHttpException ex)
             {
