@@ -29,38 +29,64 @@
                 <td>
                     <div style="text-align: left;">
                         <font size="5">@Model.Location.Name</font><br />
-                        <font size="1">Chance of rain: ??%</font><br />
                         <font size="6">@Model.Current.Temperature°</font><br />
                     </div>
                 </td>
                 <td>
-                    <img src="@Model.Current.Weather_Icons[0]"></img><br />
+                    <img src="@Model.Current.Weather_Icons[0]"/><br />
                     <font size="3">@Model.Current.Weather_Descriptions[0]</font><br />
                 </td>
-                <td rowspan="3">
-                    7-day forecast
+                <td rowspan="5">
+                    <table class="center" border="1" style="width:100%; height:100%">
+                        <tr>
+                            <td colspan="3" style="text-align: left;">
+                                <font size="1">5-DAY FORECAST</font><br />
+                            </td>
+                        </tr>
+                        @foreach(var forecast in Model.Forecast)
+                        {
+                            <tr>
+                                <td style="text-align: left;" width="10%">
+                                    <font size="1">@forecast.Date</font>
+                                </td>
+                                <td>
+                                    <img src="@forecast.Weather_Icons[0]"/>
+                                </td>
+                                <td style="text-align: left;">
+                                    <font size="1"><b>@forecast.Weather_Descriptions[0]</b></font>
+                                </td>
+                                <td style="text-align: left;">
+                                    <font size="1"><b>@forecast.Maxtemp°</b>/@forecast.Mintemp°</font>
+                                </td>
+                            </tr>
+                        }
+                    </table>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
                     <table class="center" border="1" style="width:100%">
-                        <div style="text-align: left;">
-                            <font size="1">TODAY'S FORECAST</font><br />
-                        </div>
+                        <tr>
+                            <td>
+                                <font size="1">HOURLY FORECAST</font><br />
+                            </td>
+                        </tr>
                         @if (Model.TodayHourly != null && Model.TodayHourly.Any())
                         {
                             <tr>
                                 @foreach (var hour in Model.TodayHourly)
                                 {
-                                    <th>@hour.Time</th>
+                                    <td>
+                                        <font size="2">@hour.Time</font>
+                                    </td>
                                 }
                             </tr>
                             <tr>
                                 @foreach (var hour in Model.TodayHourly)
                                 {
                                     <td>
-                                        <img src="@hour.Weather_Icons[0]"></img><br />
-                                        @hour.Temperature°
+                                        <img src="@hour.Weather_Icons[0]"/><br />
+                                        <font size="3"><b>@hour.Temperature°</b></font>
                                     </td>
                                 }
                             </tr>
@@ -69,10 +95,39 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2">2</td>
+                <td colspan="2">
+                    <div style="text-align: left;">
+                        <font size="1">AIR CONDITIONS</font><br />
+                    </div>
+                </td>
             </tr>
             <tr>
-                <td colspan="2">3</td>
+                <td>
+                    <div style="text-align: left;">
+                        <font size="3">Real Feel</font><br />
+                        <font size="4"><b>@Model.Current.Feelslike°</b></font><br />
+                    </div>
+                </td>
+                <td>
+                    <div style="text-align: left;">
+                        <font size="3">Wind</font><br />
+                        <font size="4"><b>@Model.Current.Wind_Speed km/h</b></font><br />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="text-align: left;">
+                        <font size="3">Humidity</font><br />
+                        <font size="4"><b>@Model.Current.Humidity%</b></font><br />
+                    </div>
+                </td>
+                <td>
+                    <div style="text-align: left;">
+                        <font size="3">UV Index</font><br />
+                        <font size="4"><b>@Model.Current.UV_Index</b></font><br />
+                    </div>
+                </td>
             </tr>
         </table>
     }

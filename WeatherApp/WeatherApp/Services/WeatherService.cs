@@ -52,15 +52,16 @@ namespace WeatherApp.Services
                         },
                         Current = new Current
                         {
-                            Temperature = currentWeatherData.Main.Temp,
+                            Temperature = Math.Round(currentWeatherData.Main.Temp),
                             Weather_Descriptions = new[] { currentWeatherData.Weather[0].Description },
-                            Weather_Icons = new[] { $"http://openweathermap.org/img/wn/{currentWeatherData.Weather[0].Icon}.png" }
+                            Weather_Icons = new[] { $"http://openweathermap.org/img/wn/{currentWeatherData.Weather[0].Icon}.png" },
                         },
-                        TodayHourly = new List<Hourly>()
+                        TodayHourly = new List<Hourly>(),
+                        Forecast = new List<ForecastDay>()
                     };
 
                     // Define the target hours
-                    var targetHours = new[] { 6, 9, 12, 15, 18, 21 };
+                    var targetHours = new[] { 0, 3, 6, 9, 12, 15, 18, 21 };
                     var now = DateTimeOffset.UtcNow;
 
                     // Filter today's hourly data from 6AM to 9PM
@@ -73,7 +74,7 @@ namespace WeatherApp.Services
                             weatherModel.TodayHourly.Add(new Hourly
                             {
                                 Time = forecastDateTime.ToString("HH:mm"),
-                                Temperature = forecast.Main.Temp,
+                                Temperature = Math.Round(forecast.Main.Temp),
                                 Weather_Descriptions = new[] { forecast.Weather[0].Description },
                                 Weather_Icons = new[] { $"http://openweathermap.org/img/wn/{forecast.Weather[0].Icon}.png" }
                             });
@@ -97,7 +98,7 @@ namespace WeatherApp.Services
                                 weatherModel.TodayHourly.Add(new Hourly
                                 {
                                     Time = forecastDateTime.ToString("HH:mm"),
-                                    Temperature = forecast.Main.Temp,
+                                    Temperature = Math.Round(forecast.Main.Temp),
                                     Weather_Descriptions = new[] { forecast.Weather[0].Description },
                                     Weather_Icons = new[] { $"http://openweathermap.org/img/wn/{forecast.Weather[0].Icon}.png" }
                                 });
@@ -109,6 +110,41 @@ namespace WeatherApp.Services
                                 }
                             }
                         }
+                    }
+
+                    // Process 5-day forecast
+                    var groupedForecasts = forecastData.List
+                        .GroupBy(f => DateTimeOffset.FromUnixTimeSeconds(f.Dt).Date)
+                        .Take(5);
+
+                    foreach (var group in groupedForecasts)
+                    {
+                        var date = group.Key;
+                        var dailyForecasts = group.ToList();
+
+                        var minTemp = dailyForecasts.Min(f => f.Main.Temp);
+                        var maxTemp = dailyForecasts.Max(f => f.Main.Temp);
+                        var avgTemp = dailyForecasts.Average(f => f.Main.Temp);
+                        var weatherDescriptions = dailyForecasts
+                            .Select(f => f.Weather[0].Description)
+                            .GroupBy(d => d)
+                            .OrderByDescending(g => g.Count())
+                            .First().Key;
+                        var weatherIcons = dailyForecasts
+                            .Select(f => f.Weather[0].Icon)
+                            .GroupBy(i => i)
+                            .OrderByDescending(g => g.Count())
+                            .First().Key;
+
+                        weatherModel.Forecast.Add(new ForecastDay
+                        {
+                            Date = date.ToString("ddd"),
+                            Avgtemp = Math.Round(avgTemp),
+                            Mintemp = Math.Round(minTemp),
+                            Maxtemp = Math.Round(maxTemp),
+                            Weather_Descriptions = new[] { weatherDescriptions },
+                            Weather_Icons = new[] { $"http://openweathermap.org/img/wn/{weatherIcons}.png" }
+                        });
                     }
 
                     return weatherModel;
