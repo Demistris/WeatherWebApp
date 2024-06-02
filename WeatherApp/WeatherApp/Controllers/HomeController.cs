@@ -9,6 +9,7 @@ namespace WeatherApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly WeatherService _weatherService = new WeatherService();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -20,12 +21,21 @@ namespace WeatherApp.Controllers
             return View();
         }
 
-        public IActionResult GetWeatherDetails(string location)
+        public async Task<IActionResult> GetWeatherDetails(string location)
         {
-            WeatherService weatherService = new WeatherService();
-            var response = weatherService.GetWeatherData(location);
+            if (string.IsNullOrEmpty(location))
+            {
+                location = "New York"; // Default location
+            }
 
-            return View("Index", response.Result.JsonData);
+            WeatherModel weatherModel = await _weatherService.GetWeatherData(location);
+
+            if (weatherModel == null)
+            {
+                return View("Error"); // Handle error appropriately
+            }
+
+            return View("Index", weatherModel);
         }
 
         public IActionResult Privacy()

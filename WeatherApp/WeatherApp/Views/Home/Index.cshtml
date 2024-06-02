@@ -29,7 +29,7 @@
                 <td>
                     <div style="text-align: left;">
                         <font size="5">@Model.Location.Name</font><br />
-                        <font size="1">Chance of rain: 0%</font><br />
+                        <font size="1">Chance of rain: ??%</font><br />
                         <font size="6">@Model.Current.Temperature°</font><br />
                     </div>
                 </td>
@@ -44,36 +44,27 @@
             <tr>
                 <td colspan="2">
                     <table class="center" border="1" style="width:100%">
-                        <tr>
-                            <th>6:00 AM</th>
-                            <th>9:00 AM</th>
-                            <th>12:00 PM</th>
-                            <th>3:00 PM</th>
-                            <th>6:00 PM</th>
-                            <th>9:00 PM</th>
-                        </tr>
-                        <tr>
-                            @if (Model.Forecast != null && Model.Forecast.Any())
-                            {
-                                var todayForecast = Model.Forecast.FirstOrDefault();
-                                if (todayForecast != null && todayForecast.Hourly != null)
+                        <div style="text-align: left;">
+                            <font size="1">TODAY'S FORECAST</font><br />
+                        </div>
+                        @if (Model.TodayHourly != null && Model.TodayHourly.Any())
+                        {
+                            <tr>
+                                @foreach (var hour in Model.TodayHourly)
                                 {
-                                    foreach (var hour in new[] { "600", "900", "1200", "1500", "1800", "2100" })
-                                    {
-                                        var hourlyForecast = todayForecast.Hourly.FirstOrDefault(h => h.Time == hour);
-                                        <td>@(hourlyForecast != null ? hourlyForecast.Temperature.ToString() : "N/A")°</td>
-                                    }
+                                    <th>@hour.Time</th>
                                 }
-                                else
+                            </tr>
+                            <tr>
+                                @foreach (var hour in Model.TodayHourly)
                                 {
-                                    <td colspan="6">No hourly data available</td>
+                                    <td>
+                                        <img src="@hour.Weather_Icons[0]"></img><br />
+                                        @hour.Temperature°
+                                    </td>
                                 }
-                            }
-                            else
-                            {
-                                <td colspan="6">No forecast data available</td>
-                            }
-                        </tr>
+                            </tr>
+                        }
                     </table>
                 </td>
             </tr>
@@ -84,12 +75,6 @@
                 <td colspan="2">3</td>
             </tr>
         </table>
-
-        @* <h5>Country: @Model.Location.Country</h5> <br /> *@
-        @* <h5>Region: @Model.Location.Region </h5> <br /> *@
-        @* <h5>Time: @Model.Location.LocalTime</h5> <br /> *@
-        @* <h5>Humidity: @Model.Current.Humidity</h5> <br /> *@
-        @* <h5>Weather Description: @Model.Current.Weather_Descriptions[0]</h5> <br /> *@
     }
     else if (ViewData.ContainsKey("IsFormSubmitted") && (bool)ViewData["IsFormSubmitted"])
     {
