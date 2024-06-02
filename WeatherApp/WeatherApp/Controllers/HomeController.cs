@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using WeatherApp.Models;
 using WeatherApp.Services;
@@ -18,7 +19,7 @@ namespace WeatherApp.Controllers
         {
             return View();
         }
-        
+
         public IActionResult GetWeatherDetails(string location)
         {
             WeatherService weatherService = new WeatherService();

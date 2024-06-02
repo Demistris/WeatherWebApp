@@ -37,3 +37,8 @@ body {
 textarea:focus, input:focus {
     color: whitesmoke;
 }
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -8,23 +8,88 @@
     <br />
     <br />
     <form asp-controller="Home" asp-action="GetWeatherDetails" method="post">
-        <div>
-            <input class="rounded-box" type="text" name="location" placeholder="Search for cities" required />
-            @* <input type="submit" value="Submit" /> *@
-        </div>
+        <table class="center" style="width:100%">
+            <tr>
+                <td colspan="2">
+                    <div>
+                        <input class="rounded-box" type="text" name="location" placeholder="Search for cities" required />
+                        @* <input type="submit" value="Submit" /> *@
+                    </div>
+                </td>
+            </tr>
+        </table>
     </form>
     <br />
     <br />
 
     @if (Model != null)
     {
-        <h5>City: @Model.Location.Name</h5> <br />
-        <h5>Country: @Model.Location.Country</h5> <br />
-        <h5>Region: @Model.Location.Region </h5> <br />
-        <h5>Time: @Model.Location.LocalTime</h5> <br />
-        <h5>Temperature: @Model.Current.Temperature</h5> <br />
-        <h5>Humidity: @Model.Current.Humidity</h5> <br />
-        <h5>Weather Description: @Model.Current.Weather_Descriptions[0]</h5> <br />
+        <table class="center" border="1" style="width:50%">
+            <tr>
+                <td>
+                    <div style="text-align: left;">
+                        <font size="5">@Model.Location.Name</font><br />
+                        <font size="1">Chance of rain: 0%</font><br />
+                        <font size="6">@Model.Current.Temperature°</font><br />
+                    </div>
+                </td>
+                <td>
+                    <img src="@Model.Current.Weather_Icons[0]"></img><br />
+                    <font size="3">@Model.Current.Weather_Descriptions[0]</font><br />
+                </td>
+                <td rowspan="3">
+                    7-day forecast
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="center" border="1" style="width:100%">
+                        <tr>
+                            <th>6:00 AM</th>
+                            <th>9:00 AM</th>
+                            <th>12:00 PM</th>
+                            <th>3:00 PM</th>
+                            <th>6:00 PM</th>
+                            <th>9:00 PM</th>
+                        </tr>
+                        <tr>
+                            @if (Model.Forecast != null && Model.Forecast.Any())
+                            {
+                                var todayForecast = Model.Forecast.FirstOrDefault();
+                                if (todayForecast != null && todayForecast.Hourly != null)
+                                {
+                                    foreach (var hour in new[] { "600", "900", "1200", "1500", "1800", "2100" })
+                                    {
+                                        var hourlyForecast = todayForecast.Hourly.FirstOrDefault(h => h.Time == hour);
+                                        <td>@(hourlyForecast != null ? hourlyForecast.Temperature.ToString() : "N/A")°</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td colspan="6">No hourly data available</td>
+                                }
+                            }
+                            else
+                            {
+                                <td colspan="6">No forecast data available</td>
+                            }
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">2</td>
+            </tr>
+            <tr>
+                <td colspan="2">3</td>
+            </tr>
+        </table>
+
+        @* <h5>Country: @Model.Location.Country</h5> <br /> *@
+        @* <h5>Region: @Model.Location.Region </h5> <br /> *@
+        @* <h5>Time: @Model.Location.LocalTime</h5> <br /> *@
+        @* <h5>Humidity: @Model.Current.Humidity</h5> <br /> *@
+        @* <h5>Weather Description: @Model.Current.Weather_Descriptions[0]</h5> <br /> *@
     }
     else if (ViewData.ContainsKey("IsFormSubmitted") && (bool)ViewData["IsFormSubmitted"])
     {

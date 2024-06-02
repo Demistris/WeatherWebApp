@@ -1,4 +1,6 @@
 ﻿using Flurl.Http;
+using Newtonsoft.Json;
+using System.Diagnostics;
 using WeatherApp.Models;
 
 namespace WeatherApp.Services
