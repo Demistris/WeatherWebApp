@@ -24,39 +24,39 @@
 
     @if (Model != null)
     {
-        <table class="center" border="1" style="width:50%">
+        <table class="rounded-table" style="width:60%">
             <tr>
-                <td>
+                <td class="left-padding">
                     <div style="text-align: left;">
-                        <font size="5">@Model.Location.Name</font><br />
-                        <font size="6">@Model.Current.Temperature°</font><br />
+                        <span class="white-text-size-5">@Model.Location.Name</span><br />
+                        <span class="white-text-size-6">@Model.Current.Temperature°</span><br />
                     </div>
                 </td>
                 <td>
                     <img src="@Model.Current.Weather_Icons[0]"/><br />
-                    <font size="3">@Model.Current.Weather_Descriptions[0]</font><br />
+                    <span class="white-text-size-3">@Model.Current.Weather_Descriptions[0]</span><br />
                 </td>
                 <td rowspan="5">
-                    <table class="center" border="1" style="width:100%; height:100%">
+                    <table class="rounded-table-inner" style="width:100%; height:100%">
                         <tr>
-                            <td colspan="3" style="text-align: left;">
-                                <font size="1">5-DAY FORECAST</font><br />
+                            <td class="left-padding" colspan="3" style="text-align: left;">
+                                <span class="grey-text-size-1"><b>5-DAY FORECAST</b></span><br />
                             </td>
                         </tr>
                         @foreach(var forecast in Model.Forecast)
                         {
                             <tr>
-                                <td style="text-align: left;" width="10%">
-                                    <font size="1">@forecast.Date</font>
+                                <td class="left-padding" style="text-align: left;" width="10%">
+                                    <span class="grey-text-size-1">@forecast.Date</span>
                                 </td>
                                 <td>
                                     <img src="@forecast.Weather_Icons[0]"/>
                                 </td>
                                 <td style="text-align: left;">
-                                    <font size="1"><b>@forecast.Weather_Descriptions[0]</b></font>
+                                    <span class="white-text-size-1">@forecast.Weather_Descriptions[0]</span>
                                 </td>
                                 <td style="text-align: left;">
-                                    <font size="1"><b>@forecast.Maxtemp°</b>/@forecast.Mintemp°</font>
+                                    <span class="white-text-size-1">@forecast.Maxtemp°</span><span class="grey-text-size-1">/@forecast.Mintemp°</span>
                                 </td>
                             </tr>
                         }
@@ -65,10 +65,12 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <table class="center" border="1" style="width:100%">
+                    <table class="rounded-table-inner" style="width:100%">
                         <tr>
-                            <td>
-                                <font size="1">HOURLY FORECAST</font><br />
+                            <td class="left-padding">
+                                <div style="text-align: left;">
+                                    <span class="grey-text-size-1"><b>HOURLY FORECAST</b></span><br />
+                                </div>
                             </td>
                         </tr>
                         @if (Model.TodayHourly != null && Model.TodayHourly.Any())
@@ -77,7 +79,7 @@
                                 @foreach (var hour in Model.TodayHourly)
                                 {
                                     <td>
-                                        <font size="2">@hour.Time</font>
+                                        <span class="grey-text-size-2">@hour.Time</span>
                                     </td>
                                 }
                             </tr>
@@ -86,7 +88,7 @@
                                 {
                                     <td>
                                         <img src="@hour.Weather_Icons[0]"/><br />
-                                        <font size="3"><b>@hour.Temperature°</b></font>
+                                        <span class="white-text-size-3"><b>@hour.Temperature°</b></span>
                                     </td>
                                 }
                             </tr>
@@ -96,37 +98,43 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div style="text-align: left;">
-                        <font size="1">AIR CONDITIONS</font><br />
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div style="text-align: left;">
-                        <font size="3">Real Feel</font><br />
-                        <font size="4"><b>@Model.Current.Feelslike°</b></font><br />
-                    </div>
-                </td>
-                <td>
-                    <div style="text-align: left;">
-                        <font size="3">Wind</font><br />
-                        <font size="4"><b>@Model.Current.Wind_Speed km/h</b></font><br />
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div style="text-align: left;">
-                        <font size="3">Humidity</font><br />
-                        <font size="4"><b>@Model.Current.Humidity%</b></font><br />
-                    </div>
-                </td>
-                <td>
-                    <div style="text-align: left;">
-                        <font size="3">UV Index</font><br />
-                        <font size="4"><b>@Model.Current.UV_Index</b></font><br />
-                    </div>
+                    <table class="rounded-table-inner" style="width:100%">
+                        <tr>
+                            <td class="left-padding">
+                                <div style="text-align: left;">
+                                    <span class="grey-text-size-1"><b>AIR CONDITIONS</b></span><br />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-padding">
+                                <div style="text-align: left;">
+                                    <span class="grey-text-size-3">Real Feel</span><br />
+                                    <span class="white-text-size-4">@Model.Current.Feelslike°</span><br />
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align: left;">
+                                    <span class="grey-text-size-3">Wind</span><br />
+                                    <span class="white-text-size-4">@Model.Current.Wind_Speed km/h</span><br />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-padding">
+                                <div style="text-align: left;">
+                                    <span class="grey-text-size-3">Humidity</span><br />
+                                    <span class="white-text-size-4">@Model.Current.Humidity%</span><br />
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align: left;">
+                                    <span class="grey-text-size-3">Pressure</span><br />
+                                    <span class="white-text-size-4">@Model.Current.Pressure Hg</span><br />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>

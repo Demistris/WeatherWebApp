@@ -55,6 +55,10 @@ namespace WeatherApp.Services
                             Temperature = Math.Round(currentWeatherData.Main.Temp),
                             Weather_Descriptions = new[] { currentWeatherData.Weather[0].Description },
                             Weather_Icons = new[] { $"http://openweathermap.org/img/wn/{currentWeatherData.Weather[0].Icon}.png" },
+                            Feelslike = Math.Round(currentWeatherData.Main.Feels_Like),
+                            Wind_Speed = currentWeatherData.Wind.Speed,
+                            Humidity = currentWeatherData.Main.Humidity,
+                            Pressure = currentWeatherData.Main.Pressure
                         },
                         TodayHourly = new List<Hourly>(),
                         Forecast = new List<ForecastDay>()

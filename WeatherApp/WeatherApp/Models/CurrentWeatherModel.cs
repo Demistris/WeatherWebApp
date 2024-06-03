@@ -52,6 +52,5 @@
         {
             public string Country { get; set; }
         }
-
     }
 }

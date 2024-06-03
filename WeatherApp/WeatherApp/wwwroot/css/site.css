@@ -27,7 +27,7 @@ body {
     width: 50%;
     height: 35px;
     border: none;
-    background-color:steelblue ;
+    background-color: #202b3b;
 }
 
 ::placeholder {
@@ -41,4 +41,75 @@ textarea:focus, input:focus {
 .center {
     margin-left: auto;
     margin-right: auto;
+}
+
+.rounded-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #0b131e;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rounded-table-inner {
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #202b3b;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grey-text-size-1 {
+    color: dimgray;
+    font-size: 10px;
+}
+
+.grey-text-size-2 {
+    color: dimgray;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.grey-text-size-3 {
+    color: dimgray;
+    font-size: 16px;
+}
+
+.white-text-size-1 {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.white-text-size-3 {
+    color: white;
+    font-size: 16px;
+}
+
+.white-text-size-4 {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.white-text-size-5 {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.white-text-size-6 {
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.left-padding {
+    padding-left: 10px;
 }
